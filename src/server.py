@@ -14,13 +14,12 @@ standard_port = 8080
 local_ip   = "127.0.0.1"
 
 def open_browser(hostname, port):
+ 
     """Start a browser after waiting for half a second."""
     def _open_browser():
         webbrowser.open('http://%s:%s/' % (hostname, port))
     thread = threading.Timer(0.5, _open_browser)
     thread.start()
-
-
 
 def add_host(hostname):
     """
@@ -33,25 +32,24 @@ def add_host(hostname):
         hosts = f.read()
 
         if hostname not in hosts:
+
             s = hosts + '\n' + '%s\t%s\n' % (local_ip, hostname)
 
             with open('/tmp/etc_hosts.tmp', 'wt') as outf:
                 outf.write(s)
 
-    os.system('sudo mv /tmp/etc_hosts.tmp /etc/hosts')
+            os.system('sudo mv /tmp/etc_hosts.tmp /etc/hosts')
 
-
-
-
-     
 
 def start_server(hostname, port):
-	Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
+    Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
 
-	httpd = SocketServer.TCPServer(("", port), Handler)
+    httpd = SocketServer.TCPServer(("", port), Handler)
 
-	print 'Serving at http://%s:%s/' % (hostname, port)
-	httpd.serve_forever()
+    open_browser(hostname, port)
+
+    print 'Serving at http://%s:%s/' % (hostname, port)
+    httpd.serve_forever()
 
 if __name__ == "__main__":
 
@@ -63,7 +61,7 @@ if __name__ == "__main__":
         '-p', 
         action="store", 
         dest="port",
-        type=str, 
+        type=int, 
         default=standard_port,
         help='The port to use for the HTTP server')
 
@@ -80,5 +78,4 @@ if __name__ == "__main__":
     if args.hostname is not local_ip:
         add_host(args.hostname)
     
-    open_browser(args.hostname, args.port)
     start_server(args.hostname, args.port)
