@@ -46,6 +46,6 @@ Serving at http://simplserv.dev:8800/
 localhost - - [27/Feb/2012 15:34:52] "GET / HTTP/1.1" 200 -
 localhost - - [27/Feb/2012 15:34:52] code 404, message File not found
 localhost - - [27/Feb/2012 15:34:52] "GET /favicon.ico HTTP/1.1" 404 -
-``
+```
 
 If you are using a custom hostname for the first time, you probably need to run the command as sudo, as it requires premissions to the ```/etc/hosts``` file. You can omit sudo the second time of running, though. 
